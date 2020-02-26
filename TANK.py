@@ -5,6 +5,7 @@ from random import randint
 import sys
 import os
 import tkinter as tk
+import simpleaudio as sa
 from PIL import ImageTk
 from PIL import Image
 from math import *
@@ -87,6 +88,7 @@ class Turret:
     self.window = window
     self.screen_width = screen_width
     self.screen_height = screen_height
+    self.gun_sound = sa.WaveObject.from_wave_file("Gun_sound.wav")
     self.window.bind("<Button-1>", self.shoot)
     self.period = period
     self.x = x
@@ -142,7 +144,8 @@ class Turret:
     
   def shoot(self, event=None):
     self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
-
+    self.gun_sound.play()
+    
 class Shell:
   def __init__(self, canvas, window, x, y, angle, period, screen_width, screen_height):
     self.canvas = canvas
