@@ -89,6 +89,7 @@ class Turret:
     self.screen_width = screen_width
     self.screen_height = screen_height
     self.gun_sound = sa.WaveObject.from_wave_file("Gun_sound.wav")
+    self.reload_sound = sa.WaveObject.from_wave_file("Reload_sound.wav")
     self.aiming_circle_image=PhotoImage(file="Aiming_circle.png")
     self.window.bind("<Button-1>", self.shoot)
     self.period = period
@@ -97,7 +98,8 @@ class Turret:
     self.angle = 0
     self.turret_picture = Image.open('Turret.png')
     self.reload_time = 5 #s
-    self.reload_speed = (360 * self.period) / (1000 * self.reload_time) #how much per period
+    self.running_reload_sound = False
+    self.reload_speed = (360 * self.period) / (1000 * self.reload_time) #degrees per period
     self.loaded_degrees = 0
     self.aiming_circle = self.canvas.create_image(self.x, self.y, image = self.aiming_circle_image)
     self.reload_circle_red = self.canvas.create_oval(self.x - 16, 
@@ -167,6 +169,10 @@ class Turret:
         white_circle_fill = "green"
     if self.loaded_degrees < -359:
         self.loaded_degrees = -359
+    remaining_time = ((360 + self.loaded_degrees) * self.period) / (self.reload_speed * 1000)
+    if remaining_time <= 1.4 and self.running_reload_sound == False:
+        self.reload_sound.play()
+        self.running_reload_sound = True
     self.canvas.delete(self.reload_circle_red)
     self.canvas.delete(self.reload_arc)
     self.canvas.delete(self.reload_circle_white)
@@ -184,6 +190,7 @@ class Turret:
     self.window.unbind("<Button-1>")
     self.loaded_degrees = 0
     self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
+    self.running_reload_sound = False
     self.gun_sound.play()
     
 class Shell:

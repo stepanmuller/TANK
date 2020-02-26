@@ -4,7 +4,7 @@ import tkinter as tk
 class Physics:
   def __init__(self, period):
     self.mass = 188980 #kg
-    self.power = 700*745  #W, original 1750*745
+    self.power = 300*745  #W, original 1750*745
     self.brake_power = 3000000 #W
     self.hull_traverse = 30 #16 #deg/s
     self.turret_traverse = 50 #17 #deg/s
