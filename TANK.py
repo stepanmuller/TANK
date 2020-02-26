@@ -17,14 +17,16 @@ from tank_physics import Physics
 class Game:
   def __init__(self):
     self.window = Tk()
-    self.canvas = Canvas(self.window, width=1024,height=768, bg="white")
-    self.canvas.place(relx=0, rely=0, anchor=NW)
+    self.screen_width = self.window.winfo_screenwidth()
+    self.screen_height = self.window.winfo_screenheight()
+    self.canvas = Canvas(self.window, width = self.screen_width, height = self.screen_height, bg="white")
+    self.canvas.place(relx = 0, rely = 0, anchor=NW)
     self.window.bind("<Escape>", self.end)
     self.window.attributes("-fullscreen", True)
     self.window.wm_attributes("-topmost", 1)
     self.window.focus_set()
     self.period = 20
-    self.tank = Tank(self.canvas, self.window, self.period)
+    self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.step()
   
   def step(self):
@@ -36,15 +38,17 @@ class Game:
 
 ###
 class Tank:  
-  def __init__(self, canvas, window, period):
+  def __init__(self, canvas, window, period, screen_width, screen_height):
     ###
     self.canvas = canvas
     self.window = window
     self.period = period
+    self.screen_width = screen_width
+    self.screen_height = screen_height
     self.keyboard = Keyboard(self.window)
     self.physics = Physics(self.period)
-    self.x = 512
-    self.y = 350
+    self.x = int(self.screen_width/2)
+    self.y = int(self.screen_height/2)
     self.angle = 0
     self.turret_position = 35
     self.velocity = 0 #m/s
@@ -53,7 +57,7 @@ class Tank:
     self.hull_picture = Image.open('Hull.png')
     self.rotated_hull = ImageTk.PhotoImage(self.hull_picture.rotate(self.angle))
     self.object = self.canvas.create_image(self.x, self.y, image = self.rotated_hull)
-    self.turret = Turret(self.canvas, self.window, self.turret_x, self.turret_y, self.period, self.physics.turret_traverse)
+    self.turret = Turret(self.canvas, self.window, self.turret_x, self.turret_y, self.period, self.physics.turret_traverse, self.screen_width, self.screen_height)
     self.show()
   
   def move(self):
@@ -77,10 +81,12 @@ class Tank:
 
 ###    
 class Turret:
-  def __init__(self, canvas, window, x, y, period, traverse):
+  def __init__(self, canvas, window, x, y, period, traverse, screen_width, screen_height):
     self.turret_traverse = traverse * (period / 1000)
     self.canvas = canvas
     self.window = window
+    self.screen_width = screen_width
+    self.screen_height = screen_height
     self.window.bind("<Button-1>", self.shoot)
     self.period = period
     self.x = x
@@ -135,12 +141,14 @@ class Turret:
     self.object = self.canvas.create_image(self.x, self.y, image = self.rotated_turret)
     
   def shoot(self, event=None):
-    self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period)
+    self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
 
 class Shell:
-  def __init__(self, canvas, window, x, y, angle, period):
+  def __init__(self, canvas, window, x, y, angle, period, screen_width, screen_height):
     self.canvas = canvas
     self.window = window
+    self.screen_width = screen_width
+    self.screen_height = screen_height
     self.angle = angle
     self.x = x + cos(radians(- self.angle - 90)) * 160
     self.y = y + sin(radians(- self.angle - 90)) * 160
@@ -161,7 +169,7 @@ class Shell:
     self.x = self.x + self.vx
     self.y = self.y + self.vy
     self.canvas.delete(self.shell_picture)
-    if self.x > -20 and self.x < 1044 and self.y > -20 and self.y < 788:
+    if self.x > -20 and self.x < self.screen_width + 20 and self.y > -20 and self.y < self.screen_height + 20:
         self.shell_picture = self.canvas.create_image(self.x, self.y, image = self.rotated_shell)
         self.window.after(self.period, self.fly)
   
