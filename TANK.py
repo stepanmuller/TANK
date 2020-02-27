@@ -5,7 +5,7 @@ from random import randint
 import sys
 import os
 import tkinter as tk
-import simpleaudio as sa
+from playsound import playsound
 from PIL import ImageTk
 from PIL import Image
 from math import *
@@ -88,8 +88,6 @@ class Turret:
     self.window = window
     self.screen_width = screen_width
     self.screen_height = screen_height
-    self.gun_sound = sa.WaveObject.from_wave_file("Gun_sound.wav")
-    self.reload_sound = sa.WaveObject.from_wave_file("Reload_sound.wav")
     self.aiming_circle_image=PhotoImage(file="Aiming_circle.png")
     self.window.bind("<Button-1>", self.shoot)
     self.period = period
@@ -171,7 +169,7 @@ class Turret:
         self.loaded_degrees = -359
     remaining_time = ((360 + self.loaded_degrees) * self.period) / (self.reload_speed * 1000)
     if remaining_time <= 1.4 and self.running_reload_sound == False:
-        self.reload_sound.play()
+        playsound("Reload_sound.wav", block = False)
         self.running_reload_sound = True
     self.canvas.delete(self.reload_circle_red)
     self.canvas.delete(self.reload_arc)
@@ -191,7 +189,7 @@ class Turret:
     self.loaded_degrees = 0
     self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
     self.running_reload_sound = False
-    self.gun_sound.play()
+    playsound("Gun_sound.wav", block = False)
     
 class Shell:
   def __init__(self, canvas, window, x, y, angle, period, screen_width, screen_height):
