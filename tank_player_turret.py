@@ -96,7 +96,7 @@ class Turret:
     if self.loaded_degrees < -359:
         self.loaded_degrees = -359
     remaining_time = ((360 + self.loaded_degrees) * self.period) / (self.reload_speed * 1000)
-    if remaining_time <= 1.4 and self.running_reload_sound == False:
+    if remaining_time <= 1.3 and self.running_reload_sound == False:
         playsound("Reload_sound.wav", block = False)
         self.running_reload_sound = True
     self.canvas.delete(self.reload_circle_red)
