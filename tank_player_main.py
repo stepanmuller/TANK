@@ -8,6 +8,7 @@ from PIL import ImageTk
 from PIL import Image
 from math import *
 import pyautogui
+import pygame
 
 from tank_player_turret import Turret
 from keyboard import Keyboard 

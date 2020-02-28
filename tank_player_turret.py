@@ -8,7 +8,9 @@ from PIL import ImageTk
 from PIL import Image
 from math import *
 import pyautogui
-  
+import pygame
+pygame.init()  
+
 class Turret:
   def __init__(self, canvas, window, x, y, period, traverse, screen_width, screen_height):
     self.turret_traverse = traverse * (period / 1000)
@@ -97,7 +99,9 @@ class Turret:
         self.loaded_degrees = -359
     remaining_time = ((360 + self.loaded_degrees) * self.period) / (self.reload_speed * 1000)
     if remaining_time <= 1.3 and self.running_reload_sound == False:
-        playsound("Reload_sound.wav", block = False)
+        pygame.mixer.music.load("Reload_sound.wav")
+        pygame.mixer.music.play()
+        #playsound("Reload_sound.wav", block = False)
         self.running_reload_sound = True
     self.canvas.delete(self.reload_circle_red)
     self.canvas.delete(self.reload_arc)
@@ -117,7 +121,9 @@ class Turret:
     self.loaded_degrees = 0
     self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
     self.running_reload_sound = False
-    playsound("Gun_sound.wav", block = False)
+    pygame.mixer.music.load("Gun_sound.wav")
+    pygame.mixer.music.play()
+    #playsound("Gun_sound.wav", block = False)
     
 class Shell:
   def __init__(self, canvas, window, x, y, angle, period, screen_width, screen_height):
