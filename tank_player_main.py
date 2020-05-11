@@ -16,13 +16,21 @@ from tank_physics import Physics
 
 class Tank:  
   def __init__(self, canvas, window, period, screen_width, screen_height):
+    #physics specs:
+    self.mass = 188980 #kg
+    self.power = 300*745  #W, original 1750*745
+    self.hull_traverse = 30 #16 #deg/s
+    self.turret_traverse = 50 #17 #deg/s
+    self.top_speed_forwards=20/3.6 #m/kg
+    self.top_speed_backwards=10/3.6 #m/kg
+    #end
     self.canvas = canvas
     self.window = window
     self.period = period
     self.screen_width = screen_width
     self.screen_height = screen_height
     self.keyboard = Keyboard(self.window)
-    self.physics = Physics(self.period)
+    self.physics = Physics(self.period, self.mass, self.power, self.hull_traverse, self.turret_traverse, self.top_speed_forwards, self.top_speed_backwards)
     self.x = int(self.screen_width/2)
     self.y = int(self.screen_height/2)
     self.angle = 0

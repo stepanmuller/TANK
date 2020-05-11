@@ -2,15 +2,16 @@ from tkinter import *
 import tkinter as tk
 
 class Physics:
-  def __init__(self, period):
-    self.mass = 188980 #kg
-    self.power = 300*745  #W, original 1750*745
-    self.brake_power = 3000000 #W
-    self.hull_traverse = 30 #16 #deg/s
-    self.turret_traverse = 50 #17 #deg/s
-    self.top_speed_forwards=20/3.6 #m/kg
-    self.top_speed_backwards=10/3.6 #m/kg
+  def __init__(self, period, mass, power, hull_traverse, turret_traverse, top_speed_forwards, top_speed_backwards):
+    self.mass = mass #kg
+    self.power = power  #W
+    self.hull_traverse = hull_traverse #deg/s
+    self.turret_traverse = turret_traverse #deg/s
+    self.top_speed_forwards=top_speed_forwards #m/kg
+    self.top_speed_backwards=top_speed_backwards #m/kg
     self.period=period #ms
+    
+    self.brake_power = self.power * 15
     
   def drive(self, velocity, keys):
     #steering
