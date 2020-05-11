@@ -33,6 +33,10 @@ class Tank:
     self.physics = Physics(self.period, self.mass, self.power, self.hull_traverse, self.turret_traverse, self.top_speed_forwards, self.top_speed_backwards)
     self.x = int(self.screen_width/2)
     self.y = int(self.screen_height/2)
+    self.default_x = self.x #position in the middle which does not change
+    self.default_y = self.y #position in the middle which does not change
+    self.vx = 0
+    self.vy = 0
     self.angle = 0
     self.turret_position = 35
     self.velocity = 0 #m/s
@@ -48,17 +52,17 @@ class Tank:
     move_list=self.physics.drive(self.velocity, self.keyboard.pressed)
     self.velocity = self.velocity + move_list[0]
     hull_traverse = move_list[1]
-    vx = (sin(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
-    vy = (cos(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
-    self.x = self.x + vx
-    self.y = self.y + vy
+    self.vx = (sin(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
+    self.vy = (cos(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
+    self.x = self.x + self.vx
+    self.y = self.y + self.vy
     self.angle = self.angle + hull_traverse
-    self.turret.x = self.x + (sin(radians(self.angle)) * self.turret_position)
-    self.turret.y = self.y + (cos(radians(self.angle)) * self.turret_position)
+    self.turret.x = self.default_x + (sin(radians(self.angle)) * self.turret_position)
+    self.turret.y = self.default_y + (cos(radians(self.angle)) * self.turret_position)
     self.show()
     self.turret.move(hull_traverse)
   
   def show(self):
     self.rotated_hull = ImageTk.PhotoImage(self.hull_picture.rotate(self.angle))
     self.canvas.delete(self.object)
-    self.object = self.canvas.create_image(self.x, self.y, image=self.rotated_hull)
+    self.object = self.canvas.create_image(self.default_x, self.default_y, image=self.rotated_hull)

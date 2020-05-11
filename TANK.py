@@ -13,6 +13,7 @@ import pyautogui
 import pygame
 
 from tank_player_main import Tank
+from Map import Map
 
 class Game:
   def __init__(self):
@@ -27,10 +28,12 @@ class Game:
     self.window.focus_set()
     self.period = 20
     self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.map = Map(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.step()
   
   def step(self):
     self.tank.move()
+    self.map.move(self.tank.vx, self.tank.vy)
     self.window.after(self.period,self.step)
   
   def end(self, event = None):
