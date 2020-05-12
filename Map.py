@@ -21,7 +21,7 @@ class Map:
     self.y = int(self.screen_height/2)
     self.vx = 0
     self.vy = 0
-    self.map_picture = PhotoImage(file="Sumak.png")
+    self.map_picture = PhotoImage(file="Map.png")
     self.object = self.canvas.create_image(self.x, self.y, image = self.map_picture)
   
   def move(self, vx, vy):
