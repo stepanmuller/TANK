@@ -54,6 +54,9 @@ class Tank:
     hull_traverse = move_list[1]
     self.vx = (sin(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
     self.vy = (cos(radians(self.angle + (0.5 * hull_traverse))) * - (self.velocity * 20*(1/self.period)))
+    #adding recoil from shot
+    self.vx = self.vx + self.turret.recoil_x
+    self.vy = self.vy + self.turret.recoil_y
     self.x = self.x + self.vx
     self.y = self.y + self.vy
     self.angle = self.angle + hull_traverse

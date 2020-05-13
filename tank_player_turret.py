@@ -23,6 +23,8 @@ class Turret:
     self.period = period
     self.x = x
     self.y = y
+    self.recoil_x = 0
+    self.recoil_y = 0
     self.angle = 0
     self.turret_picture = Image.open('Turret.png')
     self.reload_time = 5 #s
@@ -101,8 +103,10 @@ class Turret:
     if remaining_time <= 1.3 and self.running_reload_sound == False:
         pygame.mixer.music.load("Reload_sound.wav")
         pygame.mixer.music.play()
-        #playsound("Reload_sound.wav", block = False)
         self.running_reload_sound = True
+    if (self.reload_time - remaining_time) >= 0.15:
+        self.recoil_x = 0
+        self.recoil_y = 0
     self.canvas.delete(self.reload_circle_red)
     self.canvas.delete(self.reload_arc)
     self.canvas.delete(self.reload_circle_white)
@@ -120,6 +124,8 @@ class Turret:
     self.window.unbind("<Button-1>")
     self.loaded_degrees = 0
     self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
+    self.recoil_x = -0.08 * self.shell.vx
+    self.recoil_y = -0.08 * self.shell.vy
     self.running_reload_sound = False
     pygame.mixer.music.load("Gun_sound.wav")
     pygame.mixer.music.play()
@@ -135,7 +141,7 @@ class Shell:
     self.x = x + cos(radians(- self.angle - 90)) * 160
     self.y = y + sin(radians(- self.angle - 90)) * 160
     self.period = period
-    self.velocity = (self.period / 1000) * 1000 #pixels/period
+    self.velocity = (self.period / 1000) * 1500 #pixels/period
     self.vx = cos(radians(-self.angle-90)) * self.velocity
     self.vy = sin(radians(-self.angle-90)) * self.velocity
     self.shell_picture = Image.open('Shell.png')

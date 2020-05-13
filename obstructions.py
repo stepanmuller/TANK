@@ -6,7 +6,7 @@ from math import sqrt
 
 class Obstructions:
     def __init__(self):
-        imag = Image.open(r"C:\Users\tform\OneDrive\Dokumenty\GitHub\TANK\Map.png")
+        imag = Image.open("obstructions.png")
         #Convert the image te RGB if it is a .gif for example
         self.imag = imag.convert ('RGB')
         self.array = self.walk()
