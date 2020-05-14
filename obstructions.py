@@ -1,6 +1,7 @@
 
 from PIL import Image
 from math import sqrt
+import json
 
 
 
@@ -39,6 +40,17 @@ class Obstructions:
         return(brightness)
 
     def getObstructions(self):
-        return(self.walk())
-## Needs a function to save array to json. Will be added later.
+        data = {}
+        data['obstruction'] = self.array
+        with open('obstruction.txt', 'w') as outfile:
+            json.dump(data, outfile)
 
+
+a=Obstructions()
+a.getObstructions()
+
+## Use following code to load data
+#import json
+#
+#with open('obstructions.txt') as json_file:
+#    data = json.load(json_file)
