@@ -29,11 +29,33 @@ class Game:
     self.period = 20
     self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.map = Map(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.crash = False
     self.step()
   
   def step(self):
-    self.tank.move()
-    self.map.move(self.tank.vx, self.tank.vy)
+    #here we need to identify a FUTURE crash --> use tank.vx and tank.vy to predict next position
+    #because if we stop the tank at PRESENT crash it wont be able to go backwards
+    #if crash is going to happen, self.tank.velocity must be changed to 0
+    #temporary testing of a crashing algorithm here:
+    if self.crash == False:     #not crashed yet
+        self.tank.move()
+        if self.tank.y + self.tank.vy <=int(self.screen_height/2) - 250:
+            self.crash = True
+            self.tank.velocity = 0
+            self.tank.vx = 0
+            self.tank.vy = 0
+        else:
+            self.map.move(self.tank.vx, self.tank.vy)
+    else:   #already crashed
+        self.tank.velocity = 0
+        self.tank.move()
+        if self.tank.vy>0:
+            self.map.move(self.tank.vx, self.tank.vy)
+            self.crash = False
+    #end, not quite working yet
+    
+    # original code: self.tank.move()
+    # original code: self.map.move(self.tank.vx, self.tank.vy)
     self.window.after(self.period,self.step)
   
   def end(self, event = None):
