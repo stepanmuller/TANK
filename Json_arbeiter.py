@@ -15,9 +15,16 @@ import json
 
 
 class Arbeiter:
-  def __init__(self, screen_width, screen_height):
-    self.screen_width = screen_width
-    self.screen_height = screen_height
+  def __init__(self):
+    with open('obstruction.txt') as json_file: 
+      self.data = json.load(json_file)["obstruction"]
   
-  def is_this_point_free(self):
-    print("Drahous")
+  def is_this_point_free(self, X, Y):
+    I=0
+    J=0
+    for a in range(10):
+      if ((X+a)%10)==0:
+        J=(X+a)/10
+      if ((Y+a)%10)==0:
+        I=(Y+a)/10
+    return(self.data[int(I)][int(J)])

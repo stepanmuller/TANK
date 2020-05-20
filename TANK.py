@@ -11,7 +11,6 @@ from PIL import Image
 from math import *
 import pyautogui
 import pygame
-import json
 
 from tank_player_main import Tank
 from Map import Map
@@ -34,8 +33,6 @@ class Game:
     self.arbeiter = Arbeiter(self.screen_width, self.screen_height)
     self.crash = False
     self.step()
-    with open('obstructions.txt') as json_file:
-        self.data = json.load(json_file)
   
   def step(self):
     #here we need to identify a FUTURE crash --> use tank.vx and tank.vy to predict next position

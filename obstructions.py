@@ -27,10 +27,10 @@ class Obstructions:
             for j in range(10):
                 overall+=self.isObstructed(xpos+j,ypos+i)
         if (overall==0):
-            return True
+            return False
         if ((overall/100)<170):
-            return True
-        return False
+            return False
+        return True
 
     
     def isObstructed(self, X, Y):
