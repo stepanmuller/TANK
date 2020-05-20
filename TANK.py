@@ -15,6 +15,7 @@ import json
 
 from tank_player_main import Tank
 from Map import Map
+from Json_arbeiter import Arbeiter
 
 class Game:
   def __init__(self):
@@ -30,6 +31,7 @@ class Game:
     self.period = 20
     self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.map = Map(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.arbeiter = Arbeiter(self.screen_width, self.screen_height)
     self.crash = False
     self.step()
     with open('obstructions.txt') as json_file:
