@@ -23,6 +23,8 @@ class Turret:
     self.period = period
     self.x = x
     self.y = y
+    self.map_x = self.x
+    self.map_y = self.y
     self.recoil_x = 0
     self.recoil_y = 0
     self.angle = 0
@@ -38,6 +40,7 @@ class Turret:
         self.y - 16, self.x + 16, self.y + 16, fill = "green", width = 0, extent = self.loaded_degrees)
     self.reload_circle_white = self.canvas.create_oval(self.x - 12, 
         self.y - 13, self.x + 13, self.y + 13, fill = "white", width = 0)
+    self.shell = None
     self.rotated_turret = ImageTk.PhotoImage(self.turret_picture.rotate(self.angle))
     self.object = self.canvas.create_image(self.x, self.y, image = self.rotated_turret)
   
@@ -123,7 +126,7 @@ class Turret:
   def shoot(self, event=None):
     self.window.unbind("<Button-1>")
     self.loaded_degrees = 0
-    self.shell = Shell(self.canvas, self.window, self.x, self.y, self.angle, self.period, self.screen_width, self.screen_height)
+    self.shell = Shell(self.canvas, self.window, self.x, self.y, self.map_x, self.map_y, self.angle, self.period, self.screen_width, self.screen_height)
     self.recoil_x = -0.08 * self.shell.vx
     self.recoil_y = -0.08 * self.shell.vy
     self.running_reload_sound = False
@@ -132,7 +135,7 @@ class Turret:
     #playsound("Gun_sound.wav", block = False)
     
 class Shell:
-  def __init__(self, canvas, window, x, y, angle, period, screen_width, screen_height):
+  def __init__(self, canvas, window, x, y, map_x, map_y, angle, period, screen_width, screen_height):
     self.canvas = canvas
     self.window = window
     self.screen_width = screen_width
@@ -140,15 +143,20 @@ class Shell:
     self.angle = angle
     self.x = x + cos(radians(- self.angle - 90)) * 160
     self.y = y + sin(radians(- self.angle - 90)) * 160
+    self.map_x = map_x + cos(radians(- self.angle - 90)) * 160
+    self.map_y = map_y + sin(radians(- self.angle - 90)) * 160
+    self.crash = False
     self.period = period
     self.velocity = (self.period / 1000) * 1500 #pixels/period
     self.vx = cos(radians(-self.angle-90)) * self.velocity
     self.vy = sin(radians(-self.angle-90)) * self.velocity
     self.shell_picture = Image.open('Shell.png')
     self.smoke_picture = Image.open('Smoke.png')
+    self.impact_picture = Image.open("Shell_impact.png")
     self.rotated_shell = ImageTk.PhotoImage(self.shell_picture.rotate(self.angle))
     self.rotated_smoke = ImageTk.PhotoImage(self.smoke_picture.rotate(self.angle))
     self.shell_picture = self.canvas.create_image(self.x, self.y, image = self.rotated_shell)
+    self.impact_picture = ImageTk.PhotoImage(self.impact_picture.rotate(self.angle))
     self.smoke = self.canvas.create_image(self.x, self.y, image = self.rotated_smoke)
     self.fly()
     self.window.after(100, self.delete_smoke)
@@ -156,8 +164,13 @@ class Shell:
   def fly(self):
     self.x = self.x + self.vx
     self.y = self.y + self.vy
+    self.map_x = self.map_x + self.vx
+    self.map_y = self.map_y + self.vy
     self.canvas.delete(self.shell_picture)
-    if self.x > -20 and self.x < self.screen_width + 20 and self.y > -20 and self.y < self.screen_height + 20:
+    if self.crash == True:
+        self.smoke = self.canvas.create_image(self.x, self.y, image = self.impact_picture)
+        self.window.after(120, self.delete_smoke)
+    elif self.x > -20 and self.x < self.screen_width + 20 and self.y > -20 and self.y < self.screen_height + 20:
         self.shell_picture = self.canvas.create_image(self.x, self.y, image = self.rotated_shell)
         self.window.after(self.period, self.fly)
   

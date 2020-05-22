@@ -40,6 +40,11 @@ class Game:
     self.step()
   
   def step(self):
+    self.move_tank()
+    self.shell_wall_crash()
+    self.window.after(self.period,self.step)
+  
+  def move_tank(self):
     original_x = self.tank.x
     original_y = self.tank.y
     original_angle = self.tank.angle
@@ -60,7 +65,6 @@ class Game:
         self.tank.vy = 0
     self.tank.show() #this rotates the tank picture
     self.map.move(self.tank.vx, self.tank.vy) #this moves the map picture
-    
     #temporary algorithm for visualising the crashing points
     if len(self.rectangles)>0:
         for rectangle in self.rectangles:
@@ -72,9 +76,15 @@ class Game:
         rectangle = self.canvas.create_rectangle(point[0]-2,point[1]-2,point[0]+2,point[1]+2,fill = "black")
         self.rectangles.append(rectangle)
     #end
-    
-    self.window.after(self.period,self.step)
   
+  def shell_wall_crash(self):
+    if self.tank.turret.shell != None:
+        shell_x = self.tank.turret.shell.map_x
+        shell_y = self.tank.turret.shell.map_y
+        if self.arbeiter.is_this_point_free(shell_x,shell_y) == False:
+            self.tank.turret.shell.crash = True
+        
+      
   def end(self, event = None):
     self.window.destroy()
   
