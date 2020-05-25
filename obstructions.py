@@ -13,24 +13,20 @@ class Obstructions:
         self.array = self.walk()
 
     def walk(self):
-        array = [[0 for x in range(500)] for y in range(500)] 
-        for i in range(500):
-            for j in range(500):
+        array = [[0 for x in range(5000)] for y in range(5000)] 
+        for i in range(5000):
+            for j in range(5000):
                 array[i][j]=self.block(i,j)
         return array
     
     def block(self, i, j):
-        xpos=j*10
-        ypos=i*10
         overall=0
-        for i in range(10):
-            for j in range(10):
-                overall+=self.isObstructed(xpos+j,ypos+i)
+        overall+=self.isObstructed(j,i)
         if (overall==0):
-            return False
-        if ((overall/100)<170):
-            return False
-        return True
+            return 0
+        if (overall<170):
+            return 0
+        return 1
 
     
     def isObstructed(self, X, Y):

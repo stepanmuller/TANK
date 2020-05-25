@@ -20,4 +20,4 @@ class Arbeiter:
       self.data = json.load(json_file)["obstruction"]
   
   def is_this_point_free(self, X, Y):
-    return(self.data[int(Y/10)][int(X/10)])
+    return(bool(self.data[int(Y)][int(X)]))
