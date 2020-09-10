@@ -168,12 +168,15 @@ class Shell:
     self.map_y = self.map_y + self.vy
     self.canvas.delete(self.shell_picture)
     if self.crash == True:
-        self.smoke = self.canvas.create_image(self.x, self.y, image = self.impact_picture)
-        self.window.after(120, self.delete_smoke)
+        self.impact = self.canvas.create_image(self.x, self.y, image = self.impact_picture)
+        self.window.after(160, self.delete_impact)
     elif self.x > -20 and self.x < self.screen_width + 20 and self.y > -20 and self.y < self.screen_height + 20:
         self.shell_picture = self.canvas.create_image(self.x, self.y, image = self.rotated_shell)
         self.window.after(self.period, self.fly)
   
   def delete_smoke(self):
     self.canvas.delete(self.smoke)
+    
+  def delete_impact(self):
+    self.canvas.delete(self.impact)
 

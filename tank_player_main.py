@@ -18,11 +18,11 @@ class Tank:
   def __init__(self, canvas, window, period, screen_width, screen_height):
     #physics specs:
     self.mass = 188980 #kg
-    self.power = 300*745  #W, original 1750*745
+    self.power = 200*745  #W, original 1750*745
     self.hull_traverse = 30 #16 #deg/s
     self.turret_traverse = 50 #17 #deg/s
-    self.top_speed_forwards=20/3.6 #m/kg
-    self.top_speed_backwards=10/3.6 #m/kg
+    self.top_speed_forwards=30/3.6 #m/kg
+    self.top_speed_backwards=15/3.6 #m/kg
     #end
     self.canvas = canvas
     self.window = window
@@ -49,11 +49,14 @@ class Tank:
     self.turret = Turret(self.canvas, self.window, self.turret_x, self.turret_y, self.period, self.physics.turret_traverse, self.screen_width, self.screen_height)
     self.turret.map_x = self.x+(sin(radians(self.angle))*self.turret_position)
     self.turret.map_y = self.y+(cos(radians(self.angle))*self.turret_position)
+    self.velocity_indicator = self.canvas.create_text(20,self.screen_height-20,text=str(int(self.velocity*3.6)))
     self.show()
   
   def move(self):
     move_list=self.physics.drive(self.velocity, self.keyboard.pressed)
     self.velocity = self.velocity + move_list[0]
+    self.canvas.delete(self.velocity_indicator)
+    self.velocity_indicator = self.canvas.create_text(20,self.screen_height-20,text=str(int(self.velocity*3.6)))
     self.hull_traverse = move_list[1]
     self.vx = (sin(radians(self.angle + (0.5 * self.hull_traverse))) * - (self.velocity * 20*(1/self.period)))
     self.vy = (cos(radians(self.angle + (0.5 * self.hull_traverse))) * - (self.velocity * 20*(1/self.period)))

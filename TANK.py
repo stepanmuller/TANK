@@ -65,17 +65,6 @@ class Game:
         self.tank.vy = 0
     self.tank.show() #this rotates the tank picture
     self.map.move(self.tank.vx, self.tank.vy) #this moves the map picture
-    #temporary algorithm for visualising the crashing points
-    if len(self.rectangles)>0:
-        for rectangle in self.rectangles:
-            self.canvas.delete(rectangle)
-    self.rectangles = []
-    for point in points:
-        point[0] = point[0] - self.tank.x + self.screen_width/2
-        point[1] = point[1] - self.tank.y + self.screen_height/2
-        rectangle = self.canvas.create_rectangle(point[0]-2,point[1]-2,point[0]+2,point[1]+2,fill = "black")
-        self.rectangles.append(rectangle)
-    #end
   
   def shell_wall_crash(self):
     if self.tank.turret.shell != None:
