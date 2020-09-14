@@ -56,7 +56,7 @@ class Turret:
     delta = - delta
     return delta
     
-  def move(self, hull_traverse):
+  def move(self, hull_traverse, keys):
     self.angle = self.angle + hull_traverse
     if self.angle > 180:
       self.angle = self.angle - 360
@@ -76,7 +76,12 @@ class Turret:
       else:
         mouse_angle = mouse_angle - 180
     delta = self.turret_move(mouse_angle)
-    if abs(delta) > 0.5 * self.turret_traverse:
+    
+    turn = True
+    if "Button-3" in keys: #skipping the turret turning algorithm if right mousebutton is pressed
+      turn = False
+    
+    if abs(delta) > 0.5 * self.turret_traverse and turn==True:
       if delta > 0:
         self.angle = self.angle + self.turret_traverse
       else:

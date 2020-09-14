@@ -29,14 +29,11 @@ class Game:
     self.window.wm_attributes("-topmost", 1)
     self.window.focus_set()
     self.period = 20
-    self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.map = Map(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.arbeiter = Arbeiter()
     self.calculator = Calculator()
     self.crash = False
-    #temporary algorithm for visualising the crashing points
-    self.rectangles = []
-    #end
     self.step()
   
   def step(self):
