@@ -5,11 +5,11 @@ class Physics:
   def __init__(self, period):
     #physics specs:
     self.mass = 188980 #kg
-    self.power = 250*745  #W, original 1750*745
-    self.hull_traverse = 30 #16 #deg/s
+    self.power = 2500*745  #W, original 1750*745
+    self.hull_traverse = 70 #16 #deg/s
     self.turret_traverse = 50 #17 #deg/s
-    self.top_speed_forwards=30/3.6 #m/kg
-    self.top_speed_backwards=15/3.6 #m/kg
+    self.top_speed_forwards=100/3.6 #m/kg
+    self.top_speed_backwards=50/3.6 #m/kg
     self.period=period #ms
     
     self.brake_power = self.power * 15

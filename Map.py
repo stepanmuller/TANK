@@ -10,11 +10,10 @@ from math import *
 import pyautogui
 import pygame
 from Artillery import Artillery
-from Json_arbeiter import Arbeiter
 from Minimap import Minimap
 
 class Map:  
-  def __init__(self, canvas, window, period, screen_width, screen_height):
+  def __init__(self, arbeiter, canvas, window, period, screen_width, screen_height):
     self.canvas = canvas
     self.window = window
     self.period = period
@@ -22,7 +21,7 @@ class Map:
     self.screen_height = screen_height
     self.x = int(self.screen_width/2)
     self.y = int(self.screen_height/2)
-    self.arbeiter = Arbeiter()
+    self.arbeiter = arbeiter
     self.vx = 0
     self.vy = 0
     self.map_file = PhotoImage(file="Map.png")
@@ -41,8 +40,8 @@ class Map:
     self.minimap.show_player(vx,vy)
 
   def arty_spawn(self):
-    off_x=130
-    off_y=60
+    off_x=107
+    off_y=48
     points = [[off_x,off_y],[off_x,0],[off_x,-off_y],[0,off_y],[0,0],[0,-off_y],[-off_x,off_y],[-off_x,0],[-off_x,-off_y]]
     free_position = False
     while free_position != True:
@@ -54,7 +53,8 @@ class Map:
         if free_point == False:
             free_position = False
             break  
-    self.minimap.show_arty(x,y)
+    self.arbeiter.spawn_arty(x, y, off_x, off_y)
+    self.minimap.show_arty(x, y)
     return([x, y])
       
       

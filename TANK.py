@@ -29,9 +29,9 @@ class Game:
     self.window.wm_attributes("-topmost", 1)
     self.window.focus_set()
     self.period = 20
-    self.map = Map(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
-    self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.arbeiter = Arbeiter()
+    self.map = Map(self.arbeiter, self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.tank = Tank(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
     self.calculator = Calculator()
     self.crash = False
     self.step()
