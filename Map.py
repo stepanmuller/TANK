@@ -27,14 +27,12 @@ class Map:
     self.map_file = PhotoImage(file="Map.png")
     self.object = self.canvas.create_image(self.x, self.y, image = self.map_file)
     self.minimap = Minimap(self.canvas, self.screen_width, self.screen_height)
-    arty_coords = self.arty_spawn()
-    arty_x = arty_coords[0]
-    arty_y = arty_coords[1]
-    arty_picture_x = arty_x-2500
-    arty_picture_y = arty_y-2500
-    self.arty = Artillery(self.canvas, self.window, self.period, arty_picture_x, arty_picture_y, self.screen_width, self.screen_height)
+    self.arty = Artillery(self.canvas, self.window, self.period, self.screen_width, self.screen_height)
+    self.arty_spawn()
     
   def move(self, vx, vy):
+    self.x = self.x - vx
+    self.y = self.y - vy
     self.canvas.move(self.object, -vx, -vy)
     self.canvas.move(self.arty.object, -vx, -vy)
     self.minimap.show_player(vx,vy)
@@ -53,8 +51,9 @@ class Map:
         if free_point == False:
             free_position = False
             break  
+    arty_picture_x = x + self.x - 2500
+    arty_picture_y = y + self.y - 2500
     self.arbeiter.spawn_arty(x, y, off_x, off_y)
+    self.arty.spawn(arty_picture_x, arty_picture_y)
     self.minimap.show_arty(x, y)
-    return([x, y])
-      
       

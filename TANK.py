@@ -52,6 +52,10 @@ class Game:
         free_point = self.arbeiter.is_this_point_free(point[0],point[1])
         if free_point == False:
             free_position = False
+            if self.arbeiter.arty_dead == True:
+                self.map.arty.die()
+                self.arbeiter.arty_list = []
+                self.map.arty_spawn()
             break    
     if free_position == False:
         self.tank.x = original_x
@@ -68,6 +72,10 @@ class Game:
         shell_x = self.tank.turret.shell.map_x
         shell_y = self.tank.turret.shell.map_y
         if self.arbeiter.is_this_point_free(shell_x,shell_y) == False:
+            if self.arbeiter.arty_dead == True:
+                self.map.arty.die()
+                self.arbeiter.arty_list = []
+                self.map.arty_spawn()
             self.tank.turret.shell.crash = True
         
       
@@ -75,8 +83,6 @@ class Game:
     self.window.destroy()
   
 
-
-        
 tankgame = Game()
 
 mainloop()
