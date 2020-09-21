@@ -37,6 +37,7 @@ class Minimap:
     self.player = self.canvas.create_rectangle(self.player_picture_x+1, self.player_picture_y+1, self.player_picture_x-1, self.player_picture_y-1, fill="black")
     
   def show_arty (self, arty_x, arty_y):
+    self.minimap = self.canvas.create_image(self.screen_width-125, self.screen_height-125, image = self.minimap_file)
     self.arty_x = arty_x
     self.arty_y = arty_y
     self.arty_picture_x = self.arty_x/20 + self.screen_width - 250

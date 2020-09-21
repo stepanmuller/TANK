@@ -22,6 +22,8 @@ class Artillery:
     self.arty_file = PhotoImage(file="Conqueror_GC.png")
     self.explosion_file = PhotoImage(file="Arty_explosion.png")
   def die(self):
+    pygame.mixer.music.load("arty_explosion.wav")
+    pygame.mixer.music.play()
     coords = self.canvas.coords(self.object)
     self.canvas.delete(self.object)
     self.explosion_picture = self.canvas.create_image(coords[0], coords[1]-50, image = self.explosion_file)
