@@ -9,6 +9,7 @@ from PIL import Image
 from math import *
 import pyautogui
 import pygame
+import callouts
 
 class Artillery: 
   def __init__(self, canvas, window, period, screen_width, screen_height):
@@ -37,3 +38,9 @@ class Artillery:
     self.dead = False
   def delete_explosion(self):
     self.canvas.delete(self.explosion_picture)
+    self.window.after(500, self.play_death_sound)
+  def play_death_sound(self):
+    n_effects=5
+    chosen = randint(1, n_effects)
+    pygame.mixer.music.load("arty_death_" + chosen + ".wav")
+    pygame.mixer.music.play()
