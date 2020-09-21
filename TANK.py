@@ -57,7 +57,7 @@ class Game:
                 self.arbeiter.arty_list = []
                 self.map.arty_spawn()
             break    
-    if free_position == False:7
+    if free_position == False:
         self.tank.x = original_x
         self.tank.y = original_y
         self.tank.angle = original_angle
