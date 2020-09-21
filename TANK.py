@@ -76,6 +76,9 @@ class Game:
                 self.map.arty.die()
                 self.arbeiter.arty_list = []
                 self.map.arty_spawn()
+            elif self.tank.turret.shell.crash != True:
+                pygame.mixer.music.load("shell_impact_sound.wav")
+                pygame.mixer.music.play()
             self.tank.turret.shell.crash = True
         
       
