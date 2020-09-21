@@ -36,6 +36,8 @@ class Map:
     self.canvas.move(self.object, -vx, -vy)
     self.canvas.move(self.arty.object, -vx, -vy)
     self.minimap.show_player(vx,vy)
+    self.arty.player_x = self.x
+    self.arty.player_y = self.y
 
   def arty_spawn(self):
     off_x=107

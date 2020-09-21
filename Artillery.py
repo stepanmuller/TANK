@@ -20,8 +20,20 @@ class Artillery:
     self.screen_height = screen_height
     self.x = 0
     self.y = 0
-    self.arty_file = PhotoImage(file="Conqueror_GC.png")
+    self.player_x = 0
+    self.player_y = 0
+    self.dead = False
+    self.arty_hull_file = PhotoImage(file="Arty_hull.png")
     self.explosion_file = PhotoImage(file="Arty_explosion.png")
+  def update_turret(self):
+    if self.dead == False:
+      print()
+      print("self.player_y " + str(self.player_y))
+      print("self.screen_height*0.5 " + str(self.screen_height*0.5))
+      print("self.y " + str(self.y))
+      self.player_y = self.player_y - 0.5*self.screen_height + self.y - 2500
+      print(self.player_x, self.player_y)
+      self.window.after(self.period, self.update_turret)
   def die(self):
     if self.dead==False:
         self.dead = True
@@ -34,8 +46,9 @@ class Artillery:
   def spawn(self, x, y):
     self.x = x
     self.y = y
-    self.object = self.canvas.create_image(self.x, self.y, image = self.arty_file)
+    self.object = self.canvas.create_image(self.x, self.y, image = self.arty_hull_file)
     self.dead = False
+    self.update_turret()
   def delete_explosion(self):
     self.canvas.delete(self.explosion_picture)
     self.window.after(1200, self.play_death_sound)
