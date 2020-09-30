@@ -53,11 +53,9 @@ class Artillery:
     self.canvas.delete(self.explosion_picture)
     self.window.after(1200, self.play_death_sound)
   def play_death_sound(self):
-    APP_FOLDER = os.path.dirname(os.path.realpath(sys.argv[0]))
-    APP_FOLDER = str(APP_FOLDER) + "\callouts\\"
     n_effects=4
     chosen = randint(1, n_effects)
-    pygame.mixer.music.load(APP_FOLDER + 'arty_death_' + str(chosen) + ".wav")
+    pygame.mixer.music.load('arty_death_' + str(chosen) + ".wav")
     pygame.mixer.music.play()
 
 
