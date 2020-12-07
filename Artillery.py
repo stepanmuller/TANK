@@ -39,7 +39,6 @@ class Artillery:
         self.turret_angle = self.turret_angle + 180
       self.rotated_turret = ImageTk.PhotoImage(self.arty_turret_file.rotate(self.turret_angle))
       self.turret_picture = self.canvas.create_image(self.turret_x+5, self.turret_y, image = self.rotated_turret)
-      print(self.turret_x, self.turret_y)
   def die(self):
     if self.dead==False:
         self.dead = True

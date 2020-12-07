@@ -64,9 +64,8 @@ class Game:
         self.tank.velocity = 0
         self.tank.vx = 0
         self.tank.vy = 0
-    self.tank.show() #this rotates the tank picture
     self.map.move(self.tank.vx, self.tank.vy) #this moves the map picture
-  
+    self.tank.show()#this rotates the tank picture
   def shell_wall_crash(self):
     if self.tank.turret.shell != None:
         shell_x = self.tank.turret.shell.map_x

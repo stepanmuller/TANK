@@ -29,7 +29,7 @@ class Turret:
     self.recoil_y = 0
     self.angle = 0
     self.turret_picture = Image.open('Turret.png')
-    self.reload_time = 3 #s
+    self.reload_time = 4.5 #s
     self.running_reload_sound = False
     self.reload_speed = (360 * self.period) / (1000 * self.reload_time) #degrees per period
     self.loaded_degrees = 0
