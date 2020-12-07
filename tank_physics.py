@@ -5,7 +5,7 @@ class Physics:
   def __init__(self, period):
     #physics specs:
     self.mass = 188980 #kg
-    self.power = 1000*745  #W, original 1750*745
+    self.power = 700*745  #W, original 1750*745
     self.hull_traverse = 100 #16 #deg/s
     self.turret_traverse = 120 #17 #deg/s
     self.top_speed_forwards=100/3.6 #m/kg

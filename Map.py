@@ -35,9 +35,10 @@ class Map:
     self.y = self.y - vy
     self.canvas.move(self.object, -vx, -vy)
     self.canvas.move(self.arty.object, -vx, -vy)
+    self.arty.update_turret(-vx,-vy)
     self.minimap.show_player(vx,vy)
-    self.arty.player_x = self.x
-    self.arty.player_y = self.y
+    self.arty.player_x = -(self.x - self.screen_width/2)
+    self.arty.player_y = -(self.y - self.screen_height/2)
 
   def arty_spawn(self):
     off_x=107

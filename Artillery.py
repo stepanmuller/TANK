@@ -24,16 +24,22 @@ class Artillery:
     self.player_y = 0
     self.dead = False
     self.arty_hull_file = PhotoImage(file="Arty_hull.png")
+    self.arty_turret_file = Image.open("Arty_turret.png")
     self.explosion_file = PhotoImage(file="Arty_explosion.png")
-  def update_turret(self):
+  def update_turret(self, vx, vy):
     if self.dead == False:
-      print()
-      print("self.player_y " + str(self.player_y))
-      print("self.screen_height*0.5 " + str(self.screen_height*0.5))
-      print("self.y " + str(self.y))
-      self.player_y = self.player_y - 0.5*self.screen_height + self.y - 2500
-      print(self.player_x, self.player_y)
-      self.window.after(self.period, self.update_turret)
+      self.turret_x = self.turret_x + vx
+      self.turret_y = self.turret_y + vy
+      #self.player_y = relative position of the tank to center of the map
+      #self.y = relative position of the artillery to center of the map
+      player_y = self.player_y - self.y + self.screen_height/2
+      player_x = self.player_x - self.x + self.screen_width/2
+      self.turret_angle = degrees(atan(player_x/player_y)) - 90
+      if player_y > 0:
+        self.turret_angle = self.turret_angle + 180
+      self.rotated_turret = ImageTk.PhotoImage(self.arty_turret_file.rotate(self.turret_angle))
+      self.turret_picture = self.canvas.create_image(self.turret_x+5, self.turret_y, image = self.rotated_turret)
+      print(self.turret_x, self.turret_y)
   def die(self):
     if self.dead==False:
         self.dead = True
@@ -46,9 +52,13 @@ class Artillery:
   def spawn(self, x, y):
     self.x = x
     self.y = y
+    self.turret_x = self.x
+    self.turret_y = self.y
     self.object = self.canvas.create_image(self.x, self.y, image = self.arty_hull_file)
+    self.x = self.x + self.player_x
+    self.y = self.y + self.player_y
     self.dead = False
-    self.update_turret()
+    self.update_turret(0,0)
   def delete_explosion(self):
     self.canvas.delete(self.explosion_picture)
     self.window.after(1200, self.play_death_sound)
