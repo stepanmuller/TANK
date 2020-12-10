@@ -29,6 +29,10 @@ class Minimap:
     self.arty = self.canvas.create_rectangle(self.arty_picture_x+1, self.arty_picture_y+1, self.arty_picture_x-1, self.arty_picture_y-1, fill="red", outline="red")
   
   def show_player (self, player_vx, player_vy):
+    self.canvas.delete(self.minimap)
+    self.minimap = self.canvas.create_image(self.screen_width-125, self.screen_height-125, image = self.minimap_file)
+    self.canvas.delete(self.arty)
+    self.arty = self.canvas.create_rectangle(self.arty_picture_x+1, self.arty_picture_y+1, self.arty_picture_x-1, self.arty_picture_y-1, fill="red", outline="red")
     self.player_x = self.player_x + player_vx
     self.player_y = self.player_y + player_vy
     self.player_picture_x = self.player_x/20 + self.screen_width - 250
