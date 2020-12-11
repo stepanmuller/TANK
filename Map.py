@@ -36,6 +36,8 @@ class Map:
     self.canvas.move(self.object, -vx, -vy)
     self.canvas.move(self.arty.object, -vx, -vy)
     self.arty.update_turret(-vx,-vy)
+    if self.arty.shell != None:
+      self.arty.shell.fly(-vx, -vy)
     self.minimap.show_player(vx,vy)
     self.arty.player_x = -(self.x - self.screen_width/2)
     self.arty.player_y = -(self.y - self.screen_height/2)
