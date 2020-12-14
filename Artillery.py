@@ -130,6 +130,7 @@ class Shell:
   def __init__(self, canvas, window, target_x, target_y, my_x, my_y, angle):
     self.canvas = canvas
     self.window = window
+    self.arty_shell_file = PhotoImage(file="Arty_shell.png")
     self.target_x = target_x
     self.target_y = target_y
     self.my_x = my_x
@@ -140,7 +141,7 @@ class Shell:
     self.velocity = 50
     self.vx = cos(radians(-angle-90)) * self.velocity
     self.vy = sin(radians(-angle-90)) * self.velocity
-    self.shell = self.canvas.create_rectangle(self.my_x+10, self.my_y+10, self.my_x-10, self.my_y-10)
+    self.shell = self.canvas.create_image(self.my_x, self.my_y, image = self.arty_shell_file)
     
   def fly(self, vx, vy):
     self.time = self.time+1
