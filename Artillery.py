@@ -30,7 +30,7 @@ class Artillery:
     self.arty_hull_file = PhotoImage(file="Arty_hull.png")
     self.arty_turret_file = Image.open("Arty_turret.png")
     self.explosion_file = PhotoImage(file="Arty_explosion.png")
-    self.shell = None
+    self.shells = []
   def update_turret(self, vx, vy):
     if self.dead == False:
       if self.turret_angle > 180:
@@ -86,7 +86,11 @@ class Artillery:
     target_y = self.screen_height/2
     my_x = target_x - self.relative_x
     my_y = target_y - self.relative_y
-    self.shell = Shell(self.canvas, self.window, target_x, target_y, my_x, my_y, self.turret_angle)
+    for shell in self.shells:
+      if shell.dead == True:
+        self.shells.remove(shell)
+    shell = Shell(self.canvas, self.window, target_x, target_y, my_x, my_y, self.turret_angle)
+    self.shells.append(shell)
     self.window.after(self.reload_time, self.reload) 
     
   def die(self):
@@ -130,7 +134,8 @@ class Shell:
     self.target_y = target_y
     self.my_x = my_x
     self.my_y = my_y
-    self.distance_x = abs(self.target_x - self.my_x)
+    self.dead = False
+    self.distance = abs(sqrt((self.target_x-my_x)**2 + (self.target_y - self.my_y)**2))
     self.time = 0
     self.velocity = 50
     self.vx = cos(radians(-angle-90)) * self.velocity
@@ -138,9 +143,13 @@ class Shell:
     self.shell = self.canvas.create_rectangle(self.my_x+10, self.my_y+10, self.my_x-10, self.my_y-10)
     
   def fly(self, vx, vy):
-    if self.time*abs(vx)<self.distance_x:
+    self.time = self.time+1
+    if self.time*self.velocity<self.distance:
       self.canvas.move(self.shell, self.vx+vx, self.vy+vy)
-      self.time = self.time+1
     else:
-      self.canvas.delete(self.shell)
+      self.delete()
+  
+  def delete(self):
+    self.canvas.delete(self.shell)
+    self.dead = True
       
